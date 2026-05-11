@@ -1,39 +1,39 @@
 [package]
 name = "egui_struct"
 authors = ["PingPongun <pp.pp4@vp.pl>"]
-version = "0.4.2"
+version = "0.4.3"
 edition = "2021"
 license = "MIT"
-exclude = ["demo/*", ".vscode/*"]
+exclude = [".vscode/*", "demo/*"]
 description = "EguiStruct is a rust derive macro that creates egui UI's from arbitrary structs and enums."
 repository = "https://github.com/PingPongun/egui_struct"
 keywords = ["egui"]
 rust-version = "1.70"
 
+[workspace]
+members = ["demo"]
+
 [lib]
 
 [dependencies]
-egui_struct_macros = { path = "./macros/", version = "0.4.2" }
-
+egui_struct_macros = { path = "./macros/", version = "0.4.3" }
 # egui dep is handled through feature to overcome cargo resolver not be able to select same egui version as used in rest of the app.
 # this allows egui_struct to work with newer egui through semver patch update
 # breaking-change updates (0.4, 0.5, 1., 2., ...) will update default egui version feature to newest one.
-egui21 = { version = "0.21", package = "egui", default-features = false, optional = true }
-egui22 = { version = "0.22", package = "egui", default-features = false, optional = true }
-egui23 = { version = "0.23", package = "egui", default-features = false, optional = true }
-egui24 = { version = "0.24", package = "egui", default-features = false, optional = true }
-egui25 = { version = "0.25", package = "egui", default-features = false, optional = true }
-egui26 = { version = "0.26", package = "egui", default-features = false, optional = true }
-egui27 = { version = "0.27", package = "egui", default-features = false, optional = true }
-egui28 = { version = "0.28", package = "egui", default-features = false, optional = true }
-
+egui21 = { package = "egui", version = "0.21", default-features = false, optional = true }
+egui22 = { package = "egui", version = "0.22", default-features = false, optional = true }
+egui23 = { package = "egui", version = "0.23", default-features = false, optional = true }
+egui24 = { package = "egui", version = "0.24", default-features = false, optional = true }
+egui25 = { package = "egui", version = "0.25", default-features = false, optional = true }
+egui26 = { package = "egui", version = "0.26", default-features = false, optional = true }
+egui27 = { package = "egui", version = "0.27", default-features = false, optional = true }
+egui28 = { package = "egui", version = "0.28", default-features = false, optional = true }
+egui33 = { package = "egui", version = "0.33", default-features = false, optional = true }
 indexmap = { version = "2.0", optional = true }
 
 [features]
-egui28 = ["dep:egui28", "egui_struct_macros/egui28"]
-indexmap = ["dep:indexmap"]
 default = ["egui28", "i18n"]
+egui28 = ["dep:egui28", "egui_struct_macros/egui28"]
+egui33 = ["dep:egui33", "egui_struct_macros/egui33"]
 i18n = ["egui_struct_macros/i18n"]
-
-[workspace]
-members = ["demo"]
+indexmap = ["dep:indexmap"]

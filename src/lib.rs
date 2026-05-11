@@ -2,7 +2,7 @@
 //!
 //! See [demo](https://github.com/PingPongun/egui_struct/tree/master/demo)
 
-use egui::{Button, Grid, Id, Response, ScrollArea, Ui, Widget, WidgetText};
+use crate::egui::{Button, Grid, Id, Response, ScrollArea, Ui, Widget, WidgetText};
 pub use egui_struct_macros::*;
 use std::hash::Hash;
 use std::ops::{Deref, DerefMut};
@@ -23,6 +23,8 @@ use egui26 as egui;
 use egui27 as egui;
 #[cfg(feature = "egui28")]
 use egui28 as egui;
+#[cfg(feature = "egui33")]
+use egui33 as egui;
 
 macro_rules! generate_show {
     ($top_name:ident, $collapsing_name:ident, $show_collapsing_inner:ident, $primitive_name:ident, $childs_name:ident, $start_collapsed:ident,
@@ -149,7 +151,7 @@ macro_rules! generate_show {
             ret
         }
 
-        /// Do not overide this method.
+        /// Do not override this method.
         ///
         /// Use it when implementing [.show_childs()](EguiStruct::show_childs) to display single nested element
         fn $collapsing_name(
@@ -200,7 +202,7 @@ macro_rules! generate_show {
             unreachable!()
         }
 
-        /// Controls if struct is initally collapsed/uncollapsed (if "show_childs" is shown by default)
+        /// Controls if struct is initially collapsed/uncollapsed (if "show_childs" is shown by default)
         ///
         /// eg. Collections (vecs, slices, hashmaps, ..) are initially collapsed if they have more than 16 elements
         fn $start_collapsed(&self) -> bool {
@@ -273,7 +275,7 @@ macro_rules! impl_eeqclone {
 
 /// Trait, that allows generating mutable view of data (takes `&mut data`)
 ///
-///  For end user (if you implement trait with macro & not manualy) ofers one function [`.show_top()`](Self::show_top), which displays struct inside scroll area.
+///  For end user (if you implement trait with macro & not manually) ofers one function [`.show_top()`](Self::show_top), which displays struct inside scroll area.
 pub trait EguiStruct: EguiStructClone + EguiStructEq {
     generate_show! { show_top, show_collapsing, show_collapsing_inner, show_primitive, show_childs, start_collapsed,
     &mut Self, ConfigType, COLUMN_COUNT, SIMPLE, has_childs, has_primitive }
@@ -679,7 +681,7 @@ macro_rules! impl_map {
 
         impl<Q: ToString + Eq + std::hash::Hash, V: EguiStructClone> EguiStructClone for $typ {
             fn eguis_clone(&mut self, source: &Self) {
-                //this is very simplified implementation, that asummes that lenghts & keys are the same
+                //this is very simplified implementation, that asummes that lengths & keys are the same
                 self.iter_mut().for_each(|(q, v)| {
                     if let Some(r) = source.get(q) {
                         v.eguis_clone(r)
